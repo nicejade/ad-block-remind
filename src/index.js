@@ -6,7 +6,7 @@ const getInnerHTML = () => {
   .block-tip-dialog {
     position: fixed;
     top: 120px;
-    right: 9em;
+    right: 10em;
     width: 45em;
     height: 30em;
     display: none;
@@ -170,13 +170,24 @@ class AdBlockRemind extends HTMLElement {
     elem.className = 'adsbox google-ad'
     document.body.appendChild(elem)
     const isInstallAdBlock = 'none' === getComputedStyle(elem).display
-    debugger
-    isInstallAdBlock ? this.adBlockModal.style.display = 'flex' : ''
+    if (isInstallAdBlock) {
+      this.adBlockModal.style.display = 'flex'
+      this.sendGtagEventTracking('show')
+    }
     document.body.removeChild(elem)
   }
 
-  onCloseClick(elem) {
+  onCloseClick() {
     this.adBlockModal.style.display = 'none'
+    this.sendGtagEventTracking('close')
+  }
+
+  sendGtagEventTracking(action) {
+    const gtag = window.gtag || (() => {})
+    gtag('event', action, {
+        event_category: 'ad-fuck-block',
+        event_label: 'ad-fuck-block',
+    })
   }
 }
 
