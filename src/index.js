@@ -6,7 +6,8 @@ const getInnerHTML = () => {
   .block-tip-dialog {
     position: fixed;
     top: 120px;
-    right: 10em;
+    left: 50%;
+    transform: translateX(-50%);
     width: 45em;
     height: 30em;
     display: none;
