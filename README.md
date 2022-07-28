@@ -2,7 +2,7 @@
 
 <div align="center">
   <strong>
-    🌌 基于 Web Component 所构建的组件服务，用以是否拦截 Google 广告。
+    🌌 基于 Web Component 所构建的组件服务，用以检测是否拦截 Google 广告（如安装了 Chrome Adblock 扩展），如有则弹框提醒请加白名单。
   </strong>
 </div>
 
@@ -34,6 +34,8 @@ Web Component 是一种创建**封装的**、**可复用的**、可扩展的、�
 ```
 
 在线示例效果，请参见[静轩之别苑](https://quickapp.lovejade.cn/)。
+
+![检测是否拦截 Google 广告](https://lovejade.oss-cn-shenzhen.aliyuncs.com/ad-block-remind-quickapp.lovejade.cn.png)
 
 ## 参与开发
 
@@ -72,4 +74,4 @@ yarn start
 
 [MIT](http://opensource.org/licenses/MIT)
 
-Copyright (c) 2022-present, [nicejade](https://aboutme.lovejade.cn/)
+Copyright (c) 2022-present, [晚晴幽草轩轩主](https://nicelinks.site/member/admin)
