@@ -8,8 +8,8 @@ const getInnerHTML = () => {
     top: 120px;
     left: 50%;
     transform: translateX(-50%);
-    width: 45em;
-    height: 30em;
+    width: 46em;
+    height: 32em;
     display: none;
     flex-direction: column;
     justify-content: space-evenly;
@@ -105,6 +105,8 @@ const getInnerHTML = () => {
   .block-tip-dialog .pannel .item .qrcode {
     width: 16em;
     height: 16em;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+    margin-bottom: 1em;
   }
   .block-tip-dialog .pannel .item .text {
     font-size: 1.6em;
@@ -125,16 +127,16 @@ const getInnerHTML = () => {
   <div id="ad-block-remind" class="block-tip-dialog">
     <div class="dlg-header">
       <h2 class="title">
-        若此弹框悬浮出来，多是由 AdBlock 触发
+        若此弹框悬浮出来，多是由「广告拦截器」触发
       </h2>
-      <p class="warm-reminder">您可将本站加入白名单，解除广告屏蔽（ABP），感谢支持</p>
+      <p class="warm-reminder">您可将本站加入白名单，解除广告屏蔽（AdBlock / uBlock），感谢支持</p>
       <button id="close-btn" type="button" class="btn-close">
         <span class="icon-cross"></span>
       </button>
     </div>
     <div class="pannel">
       <div class="item">
-        <img class="qrcode" src="https://nicelinks.site/static/img/reward_wexin.jpg" alt="微信打赏" />
+        <img class="qrcode" src="https://image.nicelinks.site/赞赏码.jpeg?imageView2/1/w/600/h/600/interlace/1/ignore-error/1" alt="微信打赏" />
         <strong class="text font-medium">“月黑见渔灯，</strong>
         <span class="text font-medium">微信打赏</span>
       </div>
@@ -153,6 +155,7 @@ class AdBlockRemind extends HTMLElement {
     super()
 
     template.innerHTML = getInnerHTML()
+    this._adsboxNode = null
     this._shadowRoot = this.attachShadow({ mode: 'closed' })
     this._shadowRoot.appendChild(template.content.cloneNode(true))
     this.initEvents()
@@ -167,20 +170,23 @@ class AdBlockRemind extends HTMLElement {
   }
 
   runAdsChecker() {
-    const elem = document.createElement('div')
-    elem.className = 'adsbox google-ad'
-    document.body.appendChild(elem)
-    const isInstallAdBlock = 'none' === getComputedStyle(elem).display
+    this._adsboxNode = document.createElement('div')
+    this._adsboxNode.className = 'adsbox google-ad'
+    this._adsboxNode.style.height = "1px"
+    document.body.appendChild(this._adsboxNode)
+    const adsboxCssStyle = getComputedStyle(this._adsboxNode)
+    const isInstallAdBlock = 'none' === adsboxCssStyle.display || adsboxCssStyle.height === '0px'
     if (isInstallAdBlock) {
       this.adBlockModal.style.display = 'flex'
       this.sendGtagEventTracking('show')
     }
-    document.body.removeChild(elem)
   }
 
   onCloseClick() {
     this.adBlockModal.style.display = 'none'
     this.sendGtagEventTracking('close')
+    document.body.removeChild(this._adsboxNode)
+    this._adsboxNode = null
   }
 
   sendGtagEventTracking(action) {

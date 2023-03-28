@@ -1,6 +1,6 @@
 {
   "name": "ad-block-remind",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "基于 Web Component 所构建的组件服务，用以是否拦截 Google 广告。",
   "main": "index.js",
   "scripts": {
